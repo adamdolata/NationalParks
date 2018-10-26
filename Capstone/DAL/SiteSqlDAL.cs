@@ -25,7 +25,7 @@ namespace Capstone.DAL
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand(@"Select * From Site Where site.site_id Not In (select site_id from reservation
+                    SqlCommand cmd = new SqlCommand(@"Select TOP 5 * From Site Where site.site_id Not In (select site_id from reservation
                                                     WHERE(@fromDate < from_date AND @toDate > from_date) Or
                                                     (@fromDate < to_date And @toDate > to_date) Or
                                                     (@fromDate < from_date And @toDate > to_date))", conn);
