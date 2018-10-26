@@ -7,6 +7,6 @@ namespace Capstone.DAL
 {
     public interface ISiteDAL
     {
-        IList<Site> GetAvailableSite(CampGround campGround, DateTime fromDate, DateTime toDate);
+        IList<Site> GetAvailableSite(int campGroundId, DateTime fromDate, DateTime toDate);
     }
 }

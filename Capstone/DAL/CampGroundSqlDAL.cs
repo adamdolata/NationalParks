@@ -15,7 +15,7 @@ namespace Capstone.DAL
             connectionString = databaseconnectionString;
         }
 
-        public IList<CampGround> GetCampGroundByPark(Park park)
+        public IList<CampGround> GetCampGroundByPark(int parkID)
         {
             List<CampGround> output = new List<CampGround>();
 
@@ -26,7 +26,7 @@ namespace Capstone.DAL
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("Select * From campground INNER JOIN park ON campground.park_id = park.park_id WHERE campground.park_id = @park", conn);
-                    cmd.Parameters.AddWithValue("@park", GetCampGroundByPark);
+                    cmd.Parameters.AddWithValue("@park", parkID);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 

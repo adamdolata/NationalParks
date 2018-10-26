@@ -8,6 +8,6 @@ namespace Capstone.DAL
     public interface ICampGroundDAL
     {
         IList<CampGround> GetCampGround();
-        IList<CampGround> GetCampGroundByPark(Park parkID);
+        IList<CampGround> GetCampGroundByPark(int parkID);
     }
 }
