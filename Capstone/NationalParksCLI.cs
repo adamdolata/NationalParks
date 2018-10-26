@@ -49,8 +49,36 @@ namespace Capstone
             Console.WriteLine($"{park.Description}");
 
             Console.WriteLine();
-            PrintMenu();
+            CampGroundMenu();
         }
+
+        public void CampGroundMenu()
+        {
+            Console.WriteLine("Select a CampGround Option: ");
+            Console.WriteLine("1) View Campgrounds ");
+            Console.WriteLine("2) Search for reservation ");
+            Console.WriteLine("3) Return to Previous Screen ");
+            string input = Console.ReadLine();
+
+            ICampGroundDAL cgDal = new CampGroundSqlDAL(DatabaseConnection);
+            Park park = new Park();
+            IList<CampGround> campGrounds = cgDal.GetCampGroundByPark(park);       
+
+            if (input == "1")
+            {
+                if (campGrounds.Count > 0)
+                {
+                    foreach (CampGround campGround in campGrounds)
+                    {
+                        GetPark();
+                        Console.WriteLine();
+                        Console.WriteLine($"#{campGround.CampGroundId}  {campGround.Name}  {campGround.OpenFrom}  {campGround.OpenTo}  {campGround.DailyFee}");
+                    }
+                }
+            }
+        }
+
+
 
         private void PrintMenu()
         {
@@ -64,6 +92,19 @@ namespace Capstone
             }
             Console.WriteLine("Q) Quit");
         }
+
+        //private void CampGroundMenu()
+        //{
+        //    Console.WriteLine("Select a Campground Option");
+        //    ICampGroundDAL cgDal = new CampGroundSqlDAL(DatabaseConnection);
+        //    IList<CampGround> campGrounds = cgDal.GetCampGround();
+
+        //    foreach (CampGround campGround in campGrounds)
+        //    {
+        //        Console.WriteLine($"{campGround.CampGroundId}) {campGround.Name}");
+        //    }
+        //    Console.WriteLine("Q) Quit");
+        //}
     }
 }
 

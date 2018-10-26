@@ -54,7 +54,7 @@ namespace Capstone.DAL
 
         public IList<Park> GetParks()
         {
-            List<Park> output = new List<Park>();
+            List<Park> parksList = new List<Park>();
 
             try
             {
@@ -63,7 +63,7 @@ namespace Capstone.DAL
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("Select * From park" , conn);
-                    //cmd.Parameters.AddWithValue("@command", command);
+                    
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -77,7 +77,7 @@ namespace Capstone.DAL
                         park.Area = Convert.ToInt32(reader["area"]);
                         park.Visitors = Convert.ToInt32(reader["visitors"]);
                         park.Description = Convert.ToString(reader["description"]);
-                        output.Add(park);
+                        parksList.Add(park);
                     }
                     
                 }
@@ -87,7 +87,7 @@ namespace Capstone.DAL
                 Console.WriteLine("There was a problem accessing the database.");
                 throw;
             }
-            return output;
+            return parksList;
         }
 
 
