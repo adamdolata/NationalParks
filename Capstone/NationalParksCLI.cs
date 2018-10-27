@@ -24,7 +24,13 @@ namespace Capstone
             {
                 string command = Console.ReadLine();
 
-                if (command.ToLower() != "q")
+                // Added if statement to require a valid input
+                if (command != "1" && command != "2" && command != "3" && command != "4" && command.ToLower() != "q")
+                {
+                    Console.WriteLine("Invalid entry, please enter a valid selection.");
+
+                }
+                else if (command.ToLower() != "q")
                 {
                     int parkID = int.Parse(command);
                    
@@ -88,6 +94,8 @@ namespace Capstone
                         Console.WriteLine("#" + campGround.CampGroundId.ToString().PadRight(20) + campGround.Name.ToString().PadRight(40) + GetMonthString(campGround.OpenFrom).ToString().PadRight(20) +  GetMonthString(campGround.OpenTo).ToString().PadRight(20) + "$" + campGround.DailyFee.ToString("0.00"));
                     }
 
+                    Console.WriteLine();
+                    ReservationMenu(parkId);
                 }
             }
             else if(input == "2")
@@ -104,11 +112,8 @@ namespace Capstone
                         choice++;
                     }
 
-
                     Console.WriteLine();
                     ReservationMenu(parkId);
-
-                    
                 }
                 
             }
@@ -129,6 +134,7 @@ namespace Capstone
             IParkDAL parkDal = new ParkSqlDAL(DatabaseConnection);
             IList<Park> parks = parkDal.GetParks();
 
+            
             foreach (Park park in parks)
             {
                 Console.WriteLine($"{park.ParkId}) {park.Name}");
@@ -158,8 +164,7 @@ namespace Capstone
 
         public void ReservationMenu(int parkId)
         {
-            
-
+           
             Console.WriteLine("Select an Option: ");
             Console.WriteLine("1) Search for Available Reservation ");
             Console.WriteLine("2) Return to Previous Screen ");
@@ -206,6 +211,7 @@ namespace Capstone
                 }
                 else if (sites.Count > 0 && sites.Count < 8)
                 {
+                    Console.Clear();
                     Console.WriteLine("Results Matching Your Search Criteria");
                     Console.WriteLine();
                     Console.WriteLine();
@@ -215,7 +221,8 @@ namespace Capstone
                     int choice = 1;
                     foreach (Site site in sites)
                     {
-                        Console.WriteLine(choice + ")" + " " + site.SiteNumber.ToString().PadRight(20) + site.MaxOccupancy.ToString().PadRight(20) + site.IsAccessible.ToString().PadRight(20) + site.MaxRvLength.ToString().PadRight(10) + site.Utilities.ToString().PadRight(10) + "$" + (campGrounds[campGroundId - 1].DailyFee * (decimal)totalDays));
+                        // Added ToString() to limit cost value to two decimal places
+                        Console.WriteLine(choice + ")" + " " + site.SiteNumber.ToString().PadRight(20) + site.MaxOccupancy.ToString().PadRight(20) + site.IsAccessible.ToString().PadRight(20) + site.MaxRvLength.ToString().PadRight(10) + site.Utilities.ToString().PadRight(10) + "$" + (campGrounds[campGroundId - 1].DailyFee * (decimal)totalDays).ToString("0.00"));
                         choice++;
 
                     }
@@ -238,8 +245,8 @@ namespace Capstone
                     IReservationDAL resDal = new ReservationSqlDAL(DatabaseConnection);
                     IList<Reservation> reservations = resDal.BookReservation(reservation);
 
+                    Console.WriteLine();
                     Console.WriteLine($"The reservation has been made and the Confirmation ID is {reservation.ReservationId}");
-                    
                 }
             }
             else if (input == "2")
